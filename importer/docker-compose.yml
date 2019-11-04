@@ -1,0 +1,7 @@
+version: '3'
+services:
+  importer:
+    env_file: '.env'
+    image: 'importer'
+    container_name: 'importer'
+    

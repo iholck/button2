@@ -1,6 +1,6 @@
 require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient;
-const dbURL = `mongodb://${process.env.DBUSER}:${process.env.DBPWD}@localhost:27017/${process.env.DBNAME}`;
+const dbURL = `mongodb://${process.env.DBUSER}:${process.env.DBPWD}@${process.env.DBHOST}:27017/${process.env.DBNAME}`;
 
 
 const database = {
