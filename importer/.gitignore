@@ -97,6 +97,4 @@ data/
 
 # End of https://www.gitignore.io/api/node
 *.docx
-
-mongo-volume/
 .DS_Store
