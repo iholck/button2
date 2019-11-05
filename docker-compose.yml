@@ -1,0 +1,29 @@
+version: '3'
+services:
+  importer:
+    env_file: '.env'
+    image: 'importer'
+    container_name: 'importer'
+    dns:
+      - '8.8.8.8'
+      - '8.8.4.4'
+    networks:
+      - button2_backend
+  database:
+    env_file: '.env'
+    image: 'mongo'
+    container_name: 'buttonStorage'
+    environment:
+      - MONGO_INITDB_DATABASE=${DBNAME}
+      - MONGO_INITDB_ROOT_USERNAME=${DBUSER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DBPWD}
+    volumes:
+      - ./database/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./database/mongo-volume:/data/db
+    ports:
+      - '27017-27019:27017-27019'
+    networks:
+      - button2_backend
+networks:
+  button2_backend:
+    driver: 'bridge'
