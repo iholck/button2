@@ -4,9 +4,6 @@ services:
     env_file: '.env'
     image: 'importer'
     container_name: 'importer'
-    dns:
-      - '8.8.8.8'
-      - '8.8.4.4'
     networks:
       - button2_backend
   database:

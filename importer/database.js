@@ -11,7 +11,9 @@ const database = {
 
     getDBConnection: async function () {
         try {
-            return await MongoClient.connect(dbURL, { useUnifiedTopology: true })
+            // https://github.com/Automattic/mongoose/issues/8233
+          //  return await MongoClient.connect(dbURL, { useUnifiedTopology: true })
+            return await MongoClient.connect(dbURL)
         } catch (err) {
             console.error(err);
         };
