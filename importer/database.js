@@ -1,4 +1,8 @@
-require('dotenv').config();
+const environment = process.env.NODE_ENV || 'dev';
+if(environment === 'dev')
+{
+    require('dotenv').config({path: '../'});
+}
 const MongoClient = require('mongodb').MongoClient;
 const dbURL = `mongodb://${process.env.DBUSER}:${process.env.DBPWD}@${process.env.DBHOST}:27017/${process.env.DBNAME}`;
 

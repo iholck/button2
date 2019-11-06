@@ -1,4 +1,8 @@
-require('dotenv').config();
+const environment = process.env.NODE_ENV || 'dev';
+if(environment === 'dev')
+{
+    require('dotenv').config({path: '../'});
+}
 const ttn = require('ttn');
 const database = require('./database');
 
