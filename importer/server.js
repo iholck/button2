@@ -13,7 +13,7 @@ const accessKey = process.env.TTNACCESSKEY
 ttn.data(appID, accessKey)
   .then(function (client) {
     return client.on("uplink", function (devID, payload) {
-      tools.log("Received uplink from ", devID)
+      tools.log("Received uplink from "+ devID)
      // console.log(payload)
       database.writeData(payload).catch(function (err) {
         tools.error(err)
