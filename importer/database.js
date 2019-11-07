@@ -13,6 +13,7 @@ const database = {
         try {
             // https://github.com/Automattic/mongoose/issues/8233
           //  return await MongoClient.connect(dbURL, { useUnifiedTopology: true })
+          console.log('DBURL; '+dbURL);
             return await MongoClient.connect(dbURL)
         } catch (err) {
             console.error(err);
