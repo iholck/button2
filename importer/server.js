@@ -33,6 +33,11 @@ ttn.application(appID, accessKey)
   })
   .then(function (app) {
     console.log("Got app", app)
+    console.log('Setting up collection in DB')
+    database.setupCollection().catch(function (err) {
+      console.error(err)
+      process.exit(1)
+    });
   })
   .catch(function (err) {
     console.error(err)
