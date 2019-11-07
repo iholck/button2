@@ -2,11 +2,11 @@ FROM node:latest
 WORKDIR /usr/src/app
 
 
-COPY ./importer/package*.json ./
-COPY ./helpers ./
+COPY ./package*.json ./
+COPY ./helpers ./helpers
 
 RUN npm ci --only=production
 
-COPY ./importer/*.js ./
+COPY ./*.js ./
 
 CMD [ "npm", "start" ]
