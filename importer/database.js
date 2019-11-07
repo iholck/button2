@@ -1,7 +1,6 @@
 const environment = process.env.NODE_ENV || 'dev';
-if(environment === 'dev')
-{
-    require('dotenv').config({path: '../'});
+if (environment === 'dev') {
+    require('dotenv').config({ path: '../' });
 }
 const MongoClient = require('mongodb').MongoClient;
 const dbURL = `mongodb://${process.env.DBUSER}:${process.env.DBPWD}@${process.env.DBHOST}:27017/${process.env.DBNAME}`;
@@ -11,10 +10,10 @@ const database = {
 
     getDBConnection: async function () {
         try {
-            // https://github.com/Automattic/mongoose/issues/8233
-          //  return await MongoClient.connect(dbURL, { useUnifiedTopology: true })
-          console.log('DBURL; '+dbURL);
-            return await MongoClient.connect(dbURL)
+            console.log('DBURL; ' + dbURL);
+            return await MongoClient.connect(dbURL, { useUnifiedTopology: true })
+
+            //  return await MongoClient.connect(dbURL)
         } catch (err) {
             console.error(err);
         };
