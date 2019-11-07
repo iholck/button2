@@ -32,7 +32,7 @@ ttn.application(appID, accessKey)
     return client.get()
   })
   .then(function (app) {
-    tools.log("Got app"+app.appId)
+    tools.log("Got app: "+app.appId)
     tools.log('Setting up collection in DB...')
 
     setTimeout(function () {
