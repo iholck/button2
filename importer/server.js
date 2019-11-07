@@ -2,6 +2,7 @@ const environment = process.env.NODE_ENV || 'dev';
 if (environment === 'dev') {
   require('dotenv').config({ path: '../' });
 }
+const tools = require('./tools');
 const ttn = require('ttn');
 const database = require('./database');
 
@@ -12,16 +13,16 @@ const accessKey = process.env.TTNACCESSKEY
 ttn.data(appID, accessKey)
   .then(function (client) {
     return client.on("uplink", function (devID, payload) {
-      console.log("Received uplink from ", devID)
-      console.log(payload)
+      tools.log("Received uplink from ", devID)
+     // console.log(payload)
       database.writeData(payload).catch(function (err) {
-        console.error(err)
+        tools.error(err)
         process.exit(1)
       });
     })
   })
   .catch(function (err) {
-    console.error(err)
+    tools.error(err)
     process.exit(1)
   })
 
@@ -31,17 +32,17 @@ ttn.application(appID, accessKey)
     return client.get()
   })
   .then(function (app) {
-    console.log("Got app", app)
-    console.log('Setting up collection in DB')
+    tools.log("Got app", app.appId)
+    tools.log('Setting up collection in DB')
 
     setTimeout(function () {
       database.setupCollection().catch(function (err) {
-        console.error(err)
+        tools.error(err)
         process.exit(1)
       });
     }, 10000);
   })
   .catch(function (err) {
-    console.error(err)
+    tools.error(err)
     process.exit(1)
   })

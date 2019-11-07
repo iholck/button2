@@ -2,6 +2,7 @@ const environment = process.env.NODE_ENV || 'dev';
 if (environment === 'dev') {
     require('dotenv').config({ path: '../' });
 }
+const tools = require('./tools');
 const MongoClient = require('mongodb').MongoClient;
 const dbURL = `mongodb://${process.env.DBUSER}:${process.env.DBPWD}@${process.env.DBHOST}:27017/${process.env.DBNAME}`;
 
@@ -10,12 +11,12 @@ const database = {
 
     getDBConnection: async function () {
         try {
-            console.log('DBURL; ' + dbURL);
+
             return await MongoClient.connect(dbURL, { useUnifiedTopology: true })
 
 
         } catch (err) {
-            console.error(err);
+            tools.error(err);
         };
     },
 
@@ -24,7 +25,7 @@ const database = {
             //const dbConnection = await getDBConnection();
             return dbConnection.db(process.env.DBNAME);
         } catch (err) {
-            console.error(err);
+            tools.error(err);
         };
     },
 
@@ -33,7 +34,7 @@ const database = {
             //const dbConnection = await getDBConnection();
             return dbConnection.collection(process.env.DBNAME);
         } catch (err) {
-            console.error(err);
+            toos.error(err);
         };
     },
 
@@ -43,9 +44,9 @@ const database = {
             const dbo = await this.getDB(db);
             dbo.createCollection(process.env.DBNAME);
             db.close();
-            console.log('Collection created!');
+            tools.log('Collection created!');
         } catch (err) {
-            console.error(err);
+            tools.error(err);
             throw err;
         };
     },
@@ -58,7 +59,7 @@ const database = {
             collection.insertOne(incomingData);
             db.close();
         } catch (err) {
-            console.error(err);
+            tools.error(err);
             throw err;
         };
     }
