@@ -32,8 +32,8 @@ ttn.application(appID, accessKey)
     return client.get()
   })
   .then(function (app) {
-    tools.log("Got app", app.appId)
-    tools.log('Setting up collection in DB')
+    tools.log("Got app"+app.appId)
+    tools.log('Setting up collection in DB...')
 
     setTimeout(function () {
       database.setupCollection().catch(function (err) {
