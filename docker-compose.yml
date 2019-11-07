@@ -25,7 +25,7 @@ services:
     image: 'alpine'
     container_name: 'alpine'
     networks:
-      -button2_backend
+      - button2_backend
 networks:
   button2_backend:
     driver: 'bridge'
