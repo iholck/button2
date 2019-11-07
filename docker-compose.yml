@@ -21,6 +21,11 @@ services:
       - '27017-27019:27017-27019'
     networks:
       - button2_backend
+  alpine:
+    image: 'alpine'
+    container_name: 'alpine'
+    networks:
+      -button2_backend
 networks:
   button2_backend:
     driver: 'bridge'
