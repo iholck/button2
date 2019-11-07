@@ -43,7 +43,7 @@ const database = {
             const dbo = await this.getDB(db);
             dbo.createCollection(process.env.DBNAME);
             db.close();
-            // console.log('Collection created!');
+            console.log('Collection created!');
         } catch (err) {
             console.error(err);
             throw err;
