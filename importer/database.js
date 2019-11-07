@@ -13,7 +13,7 @@ const database = {
             console.log('DBURL; ' + dbURL);
             return await MongoClient.connect(dbURL, { useUnifiedTopology: true })
 
-            //  return await MongoClient.connect(dbURL)
+
         } catch (err) {
             console.error(err);
         };
