@@ -5,11 +5,11 @@ services:
     image: 'importer'
     container_name: 'importer'
     networks:
-      - button2_backend
+      - backend
   database:
     env_file: '.env'
     image: 'mongo'
-    container_name: 'buttonStorage'
+    container_name: 'buttonstorage'
     environment:
       - MONGO_INITDB_DATABASE=${DBNAME}
       - MONGO_INITDB_ROOT_USERNAME=${DBUSER}
@@ -20,12 +20,7 @@ services:
     ports:
       - '27017-27019:27017-27019'
     networks:
-      - button2_backend
-  alpine:
-    image: 'alpine'
-    container_name: 'alpine'
-    networks:
-      - button2_backend
+      - backend
 networks:
-  button2_backend:
+  backend:
     driver: 'bridge'
