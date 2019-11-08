@@ -1,3 +1,4 @@
+// @ts-check
 const environment = process.env.NODE_ENV || 'dev';
 if (environment === 'dev') {
     require('dotenv').config({ path: '../' });
@@ -34,7 +35,7 @@ const database = {
             //const dbConnection = await getDBConnection();
             return dbConnection.collection(process.env.DBNAME);
         } catch (err) {
-            toos.error(err);
+            tools.error(err);
         };
     },
 
