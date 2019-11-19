@@ -18,7 +18,7 @@ ttn.data(appID, accessKey)
   .then(function (client) {
     return client.on("uplink", function (devID, payload) {
       tools.log("Received uplink from "+ devID)
-      console.log(payload)
+   //   console.log(payload)
       database.createEntry(payload).catch(function (err) {
         tools.error(err)
         process.exit(1)
