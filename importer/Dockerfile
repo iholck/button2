@@ -7,6 +7,7 @@ RUN apt-get update && \
 
 COPY ./package*.json ./
 COPY ./helpers ./helpers
+COPY ./data ./data
 
 RUN npm ci --only=production
 
