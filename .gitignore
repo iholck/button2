@@ -93,7 +93,7 @@ typings/
 .dynamodb/
 
 # Mongodb directory
-data/
+#data/
 
 # End of https://www.gitignore.io/api/node
 *.docx
