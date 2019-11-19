@@ -92,8 +92,8 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
-# Mongodb directory
-data/
+# Mongodb directory - Not using that here..
+# data/
 
 # End of https://www.gitignore.io/api/node
 *.docx
