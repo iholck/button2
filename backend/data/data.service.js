@@ -36,7 +36,7 @@ async function getById(id) {
 async function getDataByDevice(dev_id){
     console.log('data.service.getDataByDevice: '+dev_id);
  //   return await sensorData.find({dev_id: dev_id}).select({"metadata.gateways":0,payload_raw:0});
- return await sensorData.find({dev_id: dev_id}).select({app_id:1,dev_id:1,counter:1,"payload_fields":1});
+ return await sensorData.find({dev_id: dev_id}).select({app_id:1,dev_id:1,counter:1,"payload_fields":1,"metadata.time":1});
 }
 
 async function getMetadataByDevice(dev_id){
@@ -46,7 +46,9 @@ async function getMetadataByDevice(dev_id){
 }
 
 async function getDeviceDataByTimeRange(dev_id,startTime,endTime){
-    return await sensorData.find({dev_id: dev_id,"metadata.time":{ $gte: new Date(new Date(startTime).setHours(00,00,00)), $lte: new Date(new Date(endTime).setHours(00,00,00))}});
+    var startDate = new Date(startTime).setHours(00,00,00);
+    var endDate = new Date(endTime).setHours(00,00,00);
+    return await sensorData.find({dev_id: dev_id,"metadata.time":{ $gte: startDate, $lte: endDate}}).select({app_id:1,dev_id:1,counter:1,"payload_fields":1,"metadata.time":1});
 }
 
 async function getDeviceMetaDataByTimeRange(dev_id,startTime,endTime){

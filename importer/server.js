@@ -4,7 +4,7 @@ const environment = process.env.NODE_ENV || 'dev';
 if (environment === 'dev') {
   require('dotenv').config({ path: '../.env' });
 }
-require('dotenv').config({ path: '../.env' });
+
 const tools = require('./helpers/tools');
 const ttn = require('ttn');
 const database = require('./data/data.service');
