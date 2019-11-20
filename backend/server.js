@@ -12,7 +12,7 @@ app.use(cors());
 
 // use JWT auth to secure the api
 // temporarily removed for development
-// app.use(jwt());
+//app.use(jwt());
 
 // api routes
 app.use('/users', require('./users/users.controller'));
