@@ -13,7 +13,7 @@ const appID = process.env.TTNAPPID
 const accessKey = process.env.TTNACCESSKEY
 
 // discover handler and open mqtt connection
-console.log(`AppId: ${appID}, accessKey: ${accessKey}`);
+//console.log(`AppId: ${appID}, accessKey: ${accessKey}`);
 ttn.data(appID, accessKey)
   .then(function (client) {
     return client.on("uplink", function (devID, payload) {
@@ -37,6 +37,7 @@ ttn.application(appID, accessKey)
   })
   .then(function (app) {
     tools.log("Got app: "+app.appId)
+    tools.log('Starting servicing data!');
     /*
     tools.log('Setting up collection in DB...')
     setTimeout(function () {

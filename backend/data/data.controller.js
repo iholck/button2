@@ -14,7 +14,8 @@ router.delete('/:id', _delete);
 router.get('/uniqueApps',getUniqueApps);
 router.get('/deviceByApp/:app',getDevicesByApp);
 router.get('/device/:device', getDataByDevice);
-router.get('/device/:device/:fromDate/:toDate', getDeviceDataByTimeRange);
+router.get('/device/:device/data/:fromDate/:toDate', getDeviceDataByTimeRange);
+router.get('/device/:device/metadata/:fromDate/:toDate', getDeviceMetaDataByTimeRange);
 router.get('/device/', getDataAll);
 
 module.exports = router;
@@ -43,6 +44,13 @@ function getDataByDevice(req, res, next) {
 function getDeviceDataByTimeRange(req, res, next) {
     console.log(`Data.controller.getDeviceDataByTimeRange(): ${req.params.device}: ${req.params.fromDate} to ${req.params.toDate}`);
     dataService.getDeviceDataByTimeRange(req.params.device,req.params.fromDate,req.params.toDate)
+        .then(data => data ? res.json(data) : res.status(400).json({ message: 'No data found' }))
+        .catch(err => next(err));
+}
+
+function getDeviceMetaDataByTimeRange(req, res, next) {
+    console.log(`Data.controller.getDeviceDataByTimeRange(): ${req.params.device}: ${req.params.fromDate} to ${req.params.toDate}`);
+    dataService.getDeviceMetaDataByTimeRange(req.params.device,req.params.fromDate,req.params.toDate)
         .then(data => data ? res.json(data) : res.status(400).json({ message: 'No data found' }))
         .catch(err => next(err));
 }

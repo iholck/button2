@@ -9,6 +9,7 @@ module.exports = {
     getById,
     getMetadataByDevice,
     getDeviceDataByTimeRange,
+    getDeviceMetaDataByTimeRange,
     delete: _delete
 };
 
@@ -46,17 +47,28 @@ async function getMetadataByDevice(dev_id){
 }
 
 async function getDeviceDataByTimeRange(dev_id,startTime,endTime){
-    var startDate = new Date(startTime).setHours(00,00,00);
-    var endDate = new Date(endTime).setHours(00,00,00);
+    var { startDate, endDate } = fixupStartEndDate(startTime, endTime);
     return await sensorData.find({dev_id: dev_id,"metadata.time":{ $gte: startDate, $lte: endDate}}).select({app_id:1,dev_id:1,counter:1,"payload_fields":1,"metadata.time":1});
 }
 
+
+
 async function getDeviceMetaDataByTimeRange(dev_id,startTime,endTime){
-    return await sensorData.findDeviceMetaDataByTimeTange(dev_id,startTime,endTime);
+    var { startDate, endDate } = fixupStartEndDate(startTime, endTime);
+    return await sensorData.find({dev_id: dev_id,"metadata.time":{ $gte: startDate, $lte: endDate}}).select({app_id:1,dev_id:1,counter:1,metadata:1});
 }
 
 
 
 async function _delete(id) {
     await sensorData.findByIdAndRemove(id);
+}
+
+function fixupStartEndDate(startTime, endTime) {
+    var startDate = new Date(startTime);
+    var endDate = new Date(endTime);
+    if (startDate.toTimeString() == endDate.toTimeString()) {
+        endDate.setTime(endDate.getTime() + 86399000);
+    }
+    return { startDate, endDate };
 }

@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // use JWT auth to secure the api
-// temporarily removed
+// temporarily removed for development
 // app.use(jwt());
 
 // api routes
