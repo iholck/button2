@@ -13,7 +13,16 @@ const actions = {
                 devices => commit('getUniqueApplicationsSuccess', devices),
                 error => commit('getUniqueApplicationsFailure', error)
             );
-    } 
+    },
+    getUniqueApplications({ commit }) {
+        commit('getUniqueApplications');
+
+        deviceService.getUniqueApplications()
+            .then(
+                devices => commit('getUniqueApplicationsSuccess', devices),
+                error => commit('getUniqueApplicationsFailure', error)
+            );
+    }  
 };
 
 const mutations = {

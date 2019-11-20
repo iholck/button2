@@ -17,14 +17,15 @@ module.exports = {
 async function getUniqueAppIDs(){
     console.log('getUniqueAppIDs called');
     let applications = await sensorData.distinct('app_id');
-    return JSONIfy(applications);
+    return JSONIfy(applications,'app');
+   // return applications;
 }
 
 
 
 async function getUniqueDevicesByAppID(app_id){
     let sensors = await sensorData.find({ app_id: app_id}).distinct('dev_id');
-    return JSONIfy(sensors);
+    return JSONIfy(sensors,'dev');
 }
 
 
@@ -77,10 +78,10 @@ function fixupStartEndDate(startTime, endTime) {
     return { startDate, endDate };
 }
 
-function JSONIfy(myArray) {
+function JSONIfy(myArray,keyname) {
     let JSONArray = [];
     myArray.forEach(item => {
-        JSONArray.push({ item: item });
+        JSONArray.push({ [keyname]: item });
     });
     return JSONArray;
 }

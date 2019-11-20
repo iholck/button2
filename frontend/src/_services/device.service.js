@@ -2,7 +2,8 @@ import config from 'config';
 import { authHeader } from '../_helpers';
 
 export const deviceService = {
-getUniqueApplications
+getUniqueApplications,
+getDevicesByApp
    
 };
 
@@ -13,6 +14,19 @@ function getUniqueApplications(){
         
     };
     return fetch(`${config.apiUrl}/data/uniqueApps`, requestOptions)
+        .then(handleResponse)
+        .then(data => {     
+            return data;
+        });
+}
+
+function getDevicesByApp(appName){
+    const requestOptions = {
+        method: 'GET',
+        headers:  authHeader()
+        
+    };
+    return fetch(`${config.apiUrl}/data//deviceByApp/${appName}`, requestOptions)
         .then(handleResponse)
         .then(data => {     
             return data;

@@ -1,10 +1,11 @@
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
+
 module.exports = {
     mode: 'development',
     resolve: {
-        extensions: ['.js', '.vue']
+        extensions: ['.js', '.vue', '.css']
     },
     module: {
         rules: [
@@ -17,10 +18,19 @@ module.exports = {
                 test: /\.js?$/,
                 exclude: /(node_modules)/,
                 use: 'babel-loader'
-            }
+            },
+            {
+                test: /\.css$/,
+                include: /(node_modules)/,
+                use: [
+                  'vue-style-loader'
+                ]
+              }
         ]
     },
-    plugins: [new HtmlWebpackPlugin({
+    plugins: [
+        
+        new HtmlWebpackPlugin({
         template: './src/index.html'
     })],
     devServer: {
