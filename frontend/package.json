@@ -12,6 +12,7 @@
   "dependencies": {
     "@syncfusion/ej2-base": "^17.3.27",
     "@syncfusion/ej2-inputs": "^17.3.28",
+    "@syncfusion/ej2-vue-calendars": "^17.3.28",
     "@syncfusion/ej2-vue-dropdowns": "^17.3.28",
     "@syncfusion/ej2-vue-inputs": "^17.3.28",
     "style-loader": "^1.0.0",

@@ -9,6 +9,9 @@
   <div>app:{{apps}}<br>devices:{{devices}}</div>
    -->
    </div>
+   <div class='wrapper'>
+        <ejs-daterangepicker :startDate="startVal"  :placeholder="waterMark"></ejs-daterangepicker>
+      </div>
   
   </div>
 </template>
@@ -21,7 +24,9 @@ export default {
   data: function(){
     return {
       appFields: {text: "app", value: "app"},
-      devFields: {text: "dev", value: "dev"}
+      devFields: {text: "dev", value: "dev"},
+      startDate: new Date(),
+      waterMark: 'Select a range'
     }
   },
   computed: {
@@ -62,4 +67,8 @@ export default {
 @import "../../node_modules/@syncfusion/ej2-vue-dropdowns/styles/material.css";
 @import "../../node_modules/@syncfusion/ej2-vue-inputs/styles/material.css";
 @import "../../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import '../../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-lists/styles/material.css';
+@import "../../node_modules/@syncfusion/ej2-vue-calendars/styles/material.css";
 </style>

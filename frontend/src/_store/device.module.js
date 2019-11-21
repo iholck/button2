@@ -3,7 +3,8 @@ import { deviceService } from '../_services';
 const state = {
     all: {},
     apps: {},
-    devices: {}
+    devices: {},
+    data: {}
 };
 
 const actions = {
@@ -19,7 +20,7 @@ const actions = {
     getDevicesByApp({ commit }, appValue) {
         commit('getDevicesByApp');
        // console.log(`getDevicesByApp: commit: ${commit}`);
-        console.log(`getDevicesByApp: appValue: ${appValue}`);
+      //  console.log(`getDevicesByApp: appValue: ${appValue}`);
         deviceService.getDevicesByApp(appValue)
             .then(
                 devices => commit('getDevicesByAppSuccess', devices),
@@ -42,7 +43,7 @@ const mutations = {
         state.devices = { loading: true };
     },
     getDevicesByAppSuccess(state, devices) {
-        console.log(`getDevicesByAppSuccess() Devices: ${JSON.stringify(devices)}`);
+     //   console.log(`getDevicesByAppSuccess() Devices: ${JSON.stringify(devices)}`);
         state.devices = { items: devices };
     },
     getDevicesByAppFailure(state, error) {
