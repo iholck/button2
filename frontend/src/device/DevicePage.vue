@@ -2,11 +2,14 @@
   <div style="width:200px">
     Select your application and device: 
    <div class=control_wrapper>
-     <ejs-dropdownlist id='dropdownApplist' popupHeight="200px" popupWidth="150px" :dataSource='apps' :fields = 'appFields' placeholder='Select your sensor application'></ejs-dropdownlist>
+     <ejs-dropdownlist id='dropdownApplist' popupHeight="200px" popupWidth="100%" :dataSource='apps' :fields = 'appFields' :change='onChange' placeholder='Select your sensor application'></ejs-dropdownlist>
 
- <ejs-dropdownlist id='dropdownDevicelist' popupHeight="200px" popupWidth="150px" :dataSource='devices' :fields = 'appFields' placeholder='Select your device'></ejs-dropdownlist>
-
+ <ejs-dropdownlist id='dropdownDevicelist' popupHeight="200px" popupWidth="100%" :dataSource='devices' :fields = 'devFields' :change='onDeviceChange' placeholder='Select your device'></ejs-dropdownlist>
+<!--
+  <div>app:{{apps}}<br>devices:{{devices}}</div>
+   -->
    </div>
+  
   </div>
 </template>
 
@@ -24,8 +27,8 @@ export default {
   computed: {
     
     ...mapState({
-      devices: state => state.devices.all,
-      apps: state => state.devices.all.items
+      devices: state => state.devices.devices.items,
+      apps: state => state.devices.apps.items
     }),
     
 
@@ -34,8 +37,21 @@ export default {
     this.getUniqueApplications();
   },
   methods: {
+    onChange: function(args){
+        console.log(args);
+        console.log('onChange() Value: '+args.value);
+        this.getDevicesByApp(args.value);
+       //this.$refs.dropdownDevicelist.ej2Instances.dataSource='devices'
+
+
+    },
+    onDeviceChange: function(args){
+        console.log(args);
+        console.log('onDeviceChange() Value: '+args.value);
+    },
     ...mapActions("devices", {
       getUniqueApplications: "getUniqueApplications",
+      getDevicesByApp: "getDevicesByApp"
 
     })
   }
