@@ -3,7 +3,8 @@ import { authHeader } from '../_helpers';
 
 export const deviceService = {
 getUniqueApplications,
-getDevicesByApp
+getDevicesByApp,
+getDeviceDataByTimeRange
    
 };
 
@@ -26,7 +27,20 @@ function getDevicesByApp(appName){
         headers:  authHeader()
         
     };
-    return fetch(`${config.apiUrl}/data//deviceByApp/${appName}`, requestOptions)
+    return fetch(`${config.apiUrl}/data/deviceByApp/${appName}`, requestOptions)
+        .then(handleResponse)
+        .then(data => {     
+            return data;
+        });
+}
+
+function getDeviceDataByTimeRange(device, startDate, endDate){
+    const requestOptions = {
+        method: 'GET',
+        headers:  authHeader()
+        
+    };
+    return fetch(`${config.apiUrl}/data/device/${device}/data/${startDate}/${endDate}`, requestOptions)
         .then(handleResponse)
         .then(data => {     
             return data;

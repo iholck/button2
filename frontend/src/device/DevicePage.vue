@@ -2,17 +2,20 @@
   <div style="width:200px">
     Select your application and device: 
    <div class=control_wrapper>
-     <ejs-dropdownlist id='dropdownApplist' popupHeight="200px" popupWidth="100%" :dataSource='apps' :fields = 'appFields' :change='onChange' placeholder='Select your sensor application'></ejs-dropdownlist>
+     <ejs-dropdownlist id='dropdownApplist' popupHeight="200px" popupWidth="100%" :dataSource='apps' :fields = 'appFields' :change='onAppChange' placeholder='Select your sensor application'></ejs-dropdownlist>
 
  <ejs-dropdownlist id='dropdownDevicelist' popupHeight="200px" popupWidth="100%" :dataSource='devices' :fields = 'devFields' :change='onDeviceChange' placeholder='Select your device'></ejs-dropdownlist>
 <!--
   <div>app:{{apps}}<br>devices:{{devices}}</div>
-   -->
+  -->
+  
    </div>
    <div class='wrapper'>
-        <ejs-daterangepicker :startDate="startVal"  :placeholder="waterMark"></ejs-daterangepicker>
+        <ejs-daterangepicker :startDate="startDate" :endDate="endDate" :min="minDate" :max="maxDate"  :change='onDatepickerChange' :strictMode=true :placeholder="waterMark"></ejs-daterangepicker>
       </div>
-  
+      <!--
+  <div>Device:{{selectedDevice}}<br>start:{{dateStart}}<br>end:{{dateEnd}}</div>
+  -->
   </div>
 </template>
 
@@ -26,6 +29,9 @@ export default {
       appFields: {text: "app", value: "app"},
       devFields: {text: "dev", value: "dev"},
       startDate: new Date(),
+      endDate: new Date(),
+      maxDate: new Date(),
+      minDate: new Date('2019-11-01'),
       waterMark: 'Select a range'
     }
   },
@@ -33,7 +39,12 @@ export default {
     
     ...mapState({
       devices: state => state.devices.devices.items,
-      apps: state => state.devices.apps.items
+      selectedDevice: state => state.devices.devices.selected,
+      apps: state => state.devices.apps.items,
+      sensorData: state => state.devices.data.items,
+      dateStart: state => state.devices.date.start,
+      dateEnd: state => state.devices.date.end
+
     }),
     
 
@@ -42,7 +53,7 @@ export default {
     this.getUniqueApplications();
   },
   methods: {
-    onChange: function(args){
+    onAppChange: function(args){
         console.log(args);
         console.log('onChange() Value: '+args.value);
         this.getDevicesByApp(args.value);
@@ -53,10 +64,24 @@ export default {
     onDeviceChange: function(args){
         console.log(args);
         console.log('onDeviceChange() Value: '+args.value);
+        this.setSelectedDevice(args.value);
+        this.attemptDeviceDataLoad();
     },
+    onDatepickerChange: function(args){
+        console.log(`onDatepickerChange: Start: ${args.startDate}, end: ${args.endDate}`);
+        this.setDatepickerDate({start: args.startDate, end: args.endDate});
+        this.attemptDeviceDataLoad();
+
+    },
+
+    
     ...mapActions("devices", {
       getUniqueApplications: "getUniqueApplications",
-      getDevicesByApp: "getDevicesByApp"
+      getDevicesByApp: "getDevicesByApp",
+      getDeviceDataByTimeRange: "getDeviceDataByTimeRange",
+      setDatepickerDate: "setDatepickerDate",
+      setSelectedDevice: "setSelectedDevice",
+      attemptDeviceDataLoad: "attemptDeviceDataLoad"
 
     })
   }
