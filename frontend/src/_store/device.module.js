@@ -41,7 +41,7 @@ const actions = {
     attemptDeviceDataLoad({ commit}){
         console.log(`AttemptDataLoad: ${state.devices.selected}, ${state.date.start}, ${state.date.end}`);
         if(state.devices.selected && state.date.start && state.date.end){
-            console.log('Data present, proceeding to load data');
+            console.log(`Data present, proceeding to load data: ${state.devices.selected}, ${state.date.start}, ${state.date.end}`);
             commit('getDeviceDataByTimeRange');
             // console.log(`getDevicesByApp: commit: ${commit}`);
            //  console.log(`getDevicesByApp: appValue: ${appValue}`);
@@ -51,16 +51,17 @@ const actions = {
                      error => commit('getDeviceDataByTimeRangeFailure', error)
                  );
         }else{
-            console.log('Data not present, no data loading');
+            console.log(`Data not present, no data loading`);
         }
     },
 
     setSelectedDevice({ commit }, device){
         commit('setSelectedDevice', device);
+        commit('clearDatepickerDate');
     },
 
     setDatepickerDate({ commit }, times){
-      //  console.log(`device.module.setDatepickerDate(): Start: ${times.start}, end:${times.end} `);
+       console.log(`device.module.setDatepickerDate(): Start: ${times.start}, end:${times.end} `);
         commit('setDatepickerDate', times);
       
     }
@@ -90,7 +91,7 @@ const mutations = {
         state.devices = { error };
     },
     getDeviceDataByTimeRange(state) {
-        state.data = { loading: true };
+        state.data = { items: {}, loading: true };
     },
     getDeviceDataByTimeRangeSuccess(state, data) {
         let processedData = [];
@@ -113,9 +114,14 @@ const mutations = {
       //  console.log(`setDatepickerDate: ${JSON.stringify(dates)}`);
         state.date = dates;
     },
+    clearDatepickerDate(state){
+        //  console.log(`setDatepickerDate: ${JSON.stringify(dates)}`);
+          state.date = {};
+      },
     setSelectedDevice(state, device){
         console.log(`setSelectedDevice: ${device}`);
         state.devices = Object.assign({},state.devices, {selected:device});
+       
     }
    
 

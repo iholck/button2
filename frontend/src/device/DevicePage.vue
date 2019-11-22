@@ -148,20 +148,26 @@ export default {
   },
   methods: {
     onAppChange: function(args) {
+      /*
       console.log(args);
       console.log("onChange() Value: " + args.value);
+      */
       this.getDevicesByApp(args.value);
     },
     onDeviceChange: function(args) {
+      /*
       console.log(args);
       console.log("onDeviceChange() Value: " + args.value);
+      */
       this.setSelectedDevice(args.value);
       this.attemptDeviceDataLoad();
     },
     onDatepickerChange: function(args) {
+      /*
       console.log(
         `onDatepickerChange: Start: ${args.startDate}, end: ${args.endDate}`
       );
+      */
       this.setDatepickerDate({ start: args.startDate, end: args.endDate });
       this.attemptDeviceDataLoad();
     },
