@@ -1,4 +1,5 @@
 <template>
+<div>
   <div style="width:200px">
     Select your application and device: 
    <div class=control_wrapper>
@@ -9,19 +10,37 @@
   <div>app:{{apps}}<br>devices:{{devices}}</div>
   -->
   
+  
    </div>
+   
    <div class='wrapper'>
-        <ejs-daterangepicker :startDate="startDate" :endDate="endDate" :min="minDate" :max="maxDate"  :change='onDatepickerChange' :strictMode=true :placeholder="waterMark"></ejs-daterangepicker>
+        <ejs-daterangepicker  :min="minDate" :max="maxDate"  :change='onDatepickerChange' :strictMode=true :placeholder="waterMark"></ejs-daterangepicker>
       </div>
-      <!--
-  <div>Device:{{selectedDevice}}<br>start:{{dateStart}}<br>end:{{dateEnd}}</div>
+      
+
+      
+        <!--
+  {{sensorData||''}}
   -->
-  </div>
+     </div> 
+<ejs-chart id="container" :dataSource='sensorData' :primaryXAxis='primaryXAxis' :title='selectedDevice'>
+            <e-series-collection>
+           
+                  <e-series  type='Line'  xName="time" yName="temp" > </e-series>
+                  <e-series  type='Line'  xName="time" yName="humidity" > </e-series>
+                <!--
+                  <e-series :dataSource='testData' type='Line' xName="data.x" yName="data.y" > </e-series>
+              
+                -->
+            </e-series-collection>
+        </ejs-chart>
+      </div>
 </template>
 
 
 <script>
 import { mapState, mapActions } from "vuex";
+import { LineSeries,DateTime } from "@syncfusion/ej2-vue-charts";
 
 export default {
   data: function(){
@@ -32,9 +51,21 @@ export default {
       endDate: new Date(),
       maxDate: new Date(),
       minDate: new Date('2019-11-01'),
-      waterMark: 'Select a range'
+      waterMark: 'Select a range',
+      primaryXAxis: {
+        valueType: 'DateTime',
+        labelFormat: 'd.M.y',
+        intervalType: 'Days',
+        edgeLabelPlacement: 'Shift',
+        majorGridLines: { width: 0 }
+        },
     }
   },
+  
+  provide: {
+    chart: [LineSeries,DateTime]
+  },
+  
   computed: {
     
     ...mapState({
@@ -57,7 +88,7 @@ export default {
         console.log(args);
         console.log('onChange() Value: '+args.value);
         this.getDevicesByApp(args.value);
-       //this.$refs.dropdownDevicelist.ej2Instances.dataSource='devices'
+    
 
 
     },

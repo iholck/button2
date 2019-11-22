@@ -93,8 +93,17 @@ const mutations = {
         state.data = { loading: true };
     },
     getDeviceDataByTimeRangeSuccess(state, data) {
-         console.log(`getDeviceDataByTimeRangeSuccess() Devices: ${JSON.stringify(data)}`);
-        state.data = { items: data };
+        let processedData = [];
+        data.forEach(dataItem => {
+            dataItem = Object.assign({},dataItem.payload_fields, dataItem.metadata,dataItem);
+            delete dataItem.metadata;
+            delete dataItem.payload_fields;
+           // dataItem.time = new Date(dataItem.time).getTime();
+
+            processedData.push(dataItem);
+        })
+    
+        state.data = { items: processedData };
     },
     getDeviceDataByTimeRangeFailure(state, error) {
         state.data = { error };
