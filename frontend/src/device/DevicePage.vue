@@ -52,6 +52,7 @@
       :rows="rows"
       :title="selectedDevice"
       :legendSettings='legendSettings'
+      :zoomSettings='zoomSettings'
     >
       <e-series-collection>
         <e-series type="Line" xName="time" yName="temp" name='Temperature'></e-series>
@@ -68,7 +69,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import { LineSeries, DateTime, Category,Legend } from "@syncfusion/ej2-vue-charts";
+import { LineSeries, DateTime, Category,Legend,Zoom } from "@syncfusion/ej2-vue-charts";
 
 export default {
   data: function() {
@@ -82,8 +83,8 @@ export default {
       waterMark: "Select a range",
       primaryXAxis: {
         valueType: "DateTime",
-        labelFormat: "d.M.y",
-        intervalType: "Days",
+        labelFormat: "d.M.y hh:mm",
+        intervalType: "Hours",
         edgeLabelPlacement: "Shift",
         majorGridLines: { width: 0 }
       },
@@ -124,12 +125,19 @@ export default {
                 visible: true
                
         },
+                zoomSettings:
+        {
+            enableSelectionZooming: true,
+            //zoom mode as x
+             enableSelectionZooming: true,
+            mode: 'X'
+        },
       marker: { visible: true, width: 10, height: 10, border: { width: 2, color: '#F8AB1D' } }
     };
   },
 
   provide: {
-    chart: [LineSeries, DateTime, Category,Legend]
+    chart: [LineSeries, DateTime, Category,Legend,Zoom]
   },
 
   computed: {
