@@ -1,49 +1,53 @@
 <template>
+<div>
   <div>
-    <div class="col-sm-3">
+    <div >
       Select your application and device:
-      <div class="control_wrapper">
-        <ejs-dropdownlist
-          id="dropdownApplist"
-          popupHeight="200px"
-          popupWidth="100%"
-          :dataSource="apps"
-          :fields="appFields"
-          :change="onAppChange"
-          placeholder="Select your sensor application"
-        ></ejs-dropdownlist>
-
-        <ejs-dropdownlist
-          id="dropdownDevicelist"
-          popupHeight="200px"
-          popupWidth="100%"
-          :dataSource="devices"
-          :fields="devFields"
-          :change="onDeviceChange"
-          placeholder="Select your device"
-        ></ejs-dropdownlist>
-        <!--
-  <div>app:{{apps}}<br>devices:{{devices}}</div>
-        -->
-      </div>
-
-      <div class="wrapper">
-        <ejs-daterangepicker
-          :min="minDate"
-          :max="maxDate"
-          :startDate="startDate"
-          :endDate="endDate"
-          :change="onDatepickerChange"
-          :strictMode="true"
-          :placeholder="waterMark"
-        ></ejs-daterangepicker>
-      </div>
-
-      <!--
-  {{sensorData||''}}
-      -->
+      <table>
+        <tr>
+          <th style="width: 25%">
+            <ejs-dropdownlist
+              id="dropdownApplist"
+              popupHeight="200px"
+              popupWidth="100%"
+              :dataSource="apps"
+              :fields="appFields"
+              :change="onAppChange"
+              placeholder="Select your sensor application"
+            ></ejs-dropdownlist>
+          </th>
+          <th style="width: 25%">
+            <ejs-dropdownlist
+              id="dropdownDevicelist"
+              popupHeight="200px"
+              popupWidth="100%"
+              :dataSource="devices"
+              :fields="devFields"
+              :change="onDeviceChange"
+              placeholder="Select your device"
+            ></ejs-dropdownlist>
+          </th>
+         
+          <th style="width: 25%">
+            <ejs-daterangepicker
+              :min="minDate"
+              :max="maxDate"
+              :startDate="startDate"
+              :endDate="endDate"
+              :change="onDatepickerChange"
+              :strictMode="true"
+              :placeholder="waterMark"
+            ></ejs-daterangepicker>
+          </th>
+        </tr>
+      </table>
     </div>
-    <div>
+  </div>
+    <!--
+  {{sensorData||''}}
+    -->
+ 
+  <div>
     <ejs-chart
       id="container"
       width="100%"
@@ -54,13 +58,19 @@
       :axes="axes"
       :rows="rows"
       :title="selectedDevice"
-      :legendSettings='legendSettings'
-      :zoomSettings='zoomSettings'
-      :tooltip= 'tooltip'
+      :legendSettings="legendSettings"
+      :zoomSettings="zoomSettings"
+      :tooltip="tooltip"
     >
       <e-series-collection>
-        <e-series type="Line" xName="time" yName="temp" name='Temperature'></e-series>
-        <e-series type="Line" xName="time" yName="humidity" yAxisName="yAxisHumidity" name='Humidity'></e-series>
+        <e-series type="Line" xName="time" yName="temp" name="Temperature"></e-series>
+        <e-series
+          type="Line"
+          xName="time"
+          yName="humidity"
+          yAxisName="yAxisHumidity"
+          name="Humidity"
+        ></e-series>
         <!--
                   <e-series :dataSource='testData' type='Line' xName="data.x" yName="data.y" > </e-series>
               
@@ -68,9 +78,6 @@
       </e-series-collection>
     </ejs-chart>
     MaxTemp: {{maxTemp}}, MinTemp: {{minTemp}}, maxHumidity: {{maxHumidity}}, minHumidity: {{minHumidity}}
-    </div>
-  <div>
-   
   </div>
   </div>
 </template>
@@ -78,9 +85,14 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import { LineSeries, DateTime, Category,Legend,Zoom,Tooltip } from "@syncfusion/ej2-vue-charts";
-
-
+import {
+  LineSeries,
+  DateTime,
+  Category,
+  Legend,
+  Zoom,
+  Tooltip
+} from "@syncfusion/ej2-vue-charts";
 
 export default {
   data: function() {
@@ -88,44 +100,44 @@ export default {
       appFields: { text: "app", value: "app" },
       devFields: { text: "dev", value: "dev" },
       endDate: new Date(),
-      startDate: new Date().setDate( new Date().getDate() - 7),
+      startDate: new Date().setDate(new Date().getDate() - 7),
       maxDate: new Date(),
       minDate: new Date("2019-11-01"),
-      waterMark: "Select a range",
+      waterMark: "Select a date range",
       primaryXAxis: {
         valueType: "DateTime",
         labelFormat: "d.M.y HH:mm",
         intervalType: "Hours",
         interval: 6,
-        rangePAdding: 'Round',
+        rangePAdding: "Round",
         edgeLabelPlacement: "None",
         majorGridLines: { width: 0 }
       },
 
-        primaryYAxis : {
+      primaryYAxis: {
         lineStyle: { width: 0 },
-    //    minimum: 15 ,
-    //    maximum: 25 ,
+        //    minimum: 15 ,
+        //    maximum: 25 ,
         interval: 1,
         title: "Temperature (Celsius)",
         labelFormat: "{value}°C",
         span: 2,
-        rangePadding: 'round'
-        },
-      
+        rangePadding: "round"
+      },
+
       axes: [
         {
           majorGridLines: { width: 0 },
-        //  rowIndex: 1,
+          //  rowIndex: 1,
           opposedPosition: true,
           lineStyle: { width: 1 },
-        //  minimum: 30,
-        //  maximum: 100,
+          //  minimum: 30,
+          //  maximum: 100,
           interval: 2,
           name: "yAxisHumidity",
           title: "Humidity",
           labelFormat: "{value}%",
-         rangePadding: 'round' 
+          rangePadding: "round"
         }
       ],
       rows: [
@@ -137,27 +149,31 @@ export default {
         }
       ],
       legendSettings: {
-                visible: true
-               
-        },
-                zoomSettings:
-        {
-            enableSelectionZooming: true,
-            //zoom mode as x
-             enableSelectionZooming: true,
-            mode: 'X'
-        },
-      marker: { visible: true, width: 10, height: 10, border: { width: 2, color: '#F8AB1D' } },
-      tooltip: { enable: true, shared: true },
+        visible: true
+      },
+      zoomSettings: {
+        enableSelectionZooming: true,
+        //zoom mode as x
+        enableSelectionZooming: true,
+        mode: "X"
+      },
+      marker: {
+        visible: true,
+        width: 10,
+        height: 10,
+        border: { width: 2, color: "#F8AB1D" }
+      },
+      tooltip: { enable: true, shared: true }
     };
   },
 
   provide: {
-    chart: [LineSeries, DateTime, Category,Legend,Zoom, Tooltip]
+    chart: [LineSeries, DateTime, Category, Legend, Zoom, Tooltip]
   },
 
   computed: {
-    
+
+
     ...mapState({
       devices: state => state.devices.devices.items,
       selectedDevice: state => state.devices.devices.selected,
