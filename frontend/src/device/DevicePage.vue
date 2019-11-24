@@ -31,6 +31,8 @@
         <ejs-daterangepicker
           :min="minDate"
           :max="maxDate"
+          :startDate="startDate"
+          :endDate="endDate"
           :change="onDatepickerChange"
           :strictMode="true"
           :placeholder="waterMark"
@@ -41,6 +43,7 @@
   {{sensorData||''}}
       -->
     </div>
+    <div>
     <ejs-chart
       id="container"
       width="100%"
@@ -53,6 +56,7 @@
       :title="selectedDevice"
       :legendSettings='legendSettings'
       :zoomSettings='zoomSettings'
+      :tooltip= 'tooltip'
     >
       <e-series-collection>
         <e-series type="Line" xName="time" yName="temp" name='Temperature'></e-series>
@@ -63,62 +67,73 @@
         -->
       </e-series-collection>
     </ejs-chart>
+    MaxTemp: {{maxTemp}}, MinTemp: {{minTemp}}, maxHumidity: {{maxHumidity}}, minHumidity: {{minHumidity}}
+    </div>
+  <div>
+   
+  </div>
   </div>
 </template>
 
 
 <script>
 import { mapState, mapActions } from "vuex";
-import { LineSeries, DateTime, Category,Legend,Zoom } from "@syncfusion/ej2-vue-charts";
+import { LineSeries, DateTime, Category,Legend,Zoom,Tooltip } from "@syncfusion/ej2-vue-charts";
+
+
 
 export default {
   data: function() {
     return {
       appFields: { text: "app", value: "app" },
       devFields: { text: "dev", value: "dev" },
-      startDate: new Date(),
       endDate: new Date(),
+      startDate: new Date().setDate( new Date().getDate() - 7),
       maxDate: new Date(),
       minDate: new Date("2019-11-01"),
       waterMark: "Select a range",
       primaryXAxis: {
         valueType: "DateTime",
-        labelFormat: "d.M.y hh:mm",
+        labelFormat: "d.M.y HH:mm",
         intervalType: "Hours",
-        edgeLabelPlacement: "Shift",
+        interval: 6,
+        rangePAdding: 'Round',
+        edgeLabelPlacement: "None",
         majorGridLines: { width: 0 }
       },
-      primaryYAxis: {
-     
-       
+
+        primaryYAxis : {
         lineStyle: { width: 0 },
-        minimum: 14,
-        maximum: 45,
-        interval: 4,
+    //    minimum: 15 ,
+    //    maximum: 25 ,
+        interval: 1,
         title: "Temperature (Celsius)",
         labelFormat: "{value}°C",
-        span: 2
-      },
+        span: 2,
+        rangePadding: 'round'
+        },
+      
       axes: [
         {
           majorGridLines: { width: 0 },
-          rowIndex: 1,
+        //  rowIndex: 1,
           opposedPosition: true,
-          lineStyle: { width: 0 },
-          minimum: 30,
-          maximum: 100,
-          interval: 10,
+          lineStyle: { width: 1 },
+        //  minimum: 30,
+        //  maximum: 100,
+          interval: 2,
           name: "yAxisHumidity",
           title: "Humidity",
-          labelFormat: "{value}%"
+          labelFormat: "{value}%",
+         rangePadding: 'round' 
         }
       ],
       rows: [
         {
-          height: "70%"
+          height: "100%"
         },
         {
-          height: "30%"
+          height: "50%"
         }
       ],
       legendSettings: {
@@ -132,23 +147,28 @@ export default {
              enableSelectionZooming: true,
             mode: 'X'
         },
-      marker: { visible: true, width: 10, height: 10, border: { width: 2, color: '#F8AB1D' } }
+      marker: { visible: true, width: 10, height: 10, border: { width: 2, color: '#F8AB1D' } },
+      tooltip: { enable: true, shared: true },
     };
   },
 
   provide: {
-    chart: [LineSeries, DateTime, Category,Legend,Zoom]
+    chart: [LineSeries, DateTime, Category,Legend,Zoom, Tooltip]
   },
 
   computed: {
-  
+    
     ...mapState({
       devices: state => state.devices.devices.items,
       selectedDevice: state => state.devices.devices.selected,
       apps: state => state.devices.apps.items,
       sensorData: state => state.devices.data.items,
       dateStart: state => state.devices.date.start,
-      dateEnd: state => state.devices.date.end
+      dateEnd: state => state.devices.date.end,
+      maxTemp: state => state.devices.dataStats.maxTemp,
+      minTemp: state => state.devices.dataStats.minTemp,
+      maxHumidity: state => state.devices.dataStats.maxHumidity,
+      minHumidity: state => state.devices.dataStats.minHumidity
     })
   },
   created() {

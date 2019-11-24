@@ -5,7 +5,8 @@ const state = {
     apps: {},
     devices: {},
     date: {},
-    data: {}
+    data: {},
+    dataStats: {}
 };
 
 const actions = {
@@ -41,11 +42,15 @@ const actions = {
     attemptDeviceDataLoad({ commit}){
         console.log(`AttemptDataLoad: ${state.devices.selected}, ${state.date.start}, ${state.date.end}`);
         if(state.devices.selected && state.date.start && state.date.end){
-            console.log(`Data present, proceeding to load data: ${state.devices.selected}, ${state.date.start}, ${state.date.end}`);
+            const startDate = new Date(state.date.start);
+            startDate.setHours(0,0,0);
+            const endDate = new Date(state.date.end);
+            endDate.setHours(23,59,59)
+            console.log(`Data present, proceeding to load data: ${state.devices.selected}, ${startDate}, ${endDate}`);
             commit('getDeviceDataByTimeRange');
             // console.log(`getDevicesByApp: commit: ${commit}`);
            //  console.log(`getDevicesByApp: appValue: ${appValue}`);
-             deviceService.getDeviceDataByTimeRange(state.devices.selected, state.date.start, state.date.end)
+             deviceService.getDeviceDataByTimeRange(state.devices.selected, startDate, endDate)
                  .then(
                      devices => commit('getDeviceDataByTimeRangeSuccess', devices),
                      error => commit('getDeviceDataByTimeRangeFailure', error)
@@ -95,6 +100,9 @@ const mutations = {
     },
     getDeviceDataByTimeRangeSuccess(state, data) {
         let processedData = [];
+        let tempData = [];
+        let humidityData = [];
+
         data.forEach(dataItem => {
             dataItem = Object.assign({},dataItem.payload_fields, dataItem.metadata,dataItem);
             delete dataItem.metadata;
@@ -102,8 +110,19 @@ const mutations = {
            // dataItem.time = new Date(dataItem.time).getTime();
 
             processedData.push(dataItem);
-        })
-    
+            tempData.push(dataItem.temp);
+            humidityData.push(dataItem.humidity);
+        //    console.log(Math.max(tempData));
+       //     console.log(humidityData);
+        });
+        state.dataStats = {
+           
+            maxTemp: Math.max(...tempData),
+            minTemp: Math.min(...tempData),
+            maxHumidity: Math.max(...humidityData),
+            minHumidity: Math.min(...humidityData)
+            };
+        
         state.data = { items: processedData };
     },
     getDeviceDataByTimeRangeFailure(state, error) {
