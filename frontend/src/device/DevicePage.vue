@@ -1,84 +1,104 @@
 <template>
-<div>
   <div>
-    <div >
-      Select your application and device:
-      <table>
-        <tr>
-          <th style="width: 25%">
-            <ejs-dropdownlist
-              id="dropdownApplist"
-              popupHeight="200px"
-              popupWidth="100%"
-              :dataSource="apps"
-              :fields="appFields"
-              :change="onAppChange"
-              placeholder="Select your sensor application"
-            ></ejs-dropdownlist>
-          </th>
-          <th style="width: 25%">
-            <ejs-dropdownlist
-              id="dropdownDevicelist"
-              popupHeight="200px"
-              popupWidth="100%"
-              :dataSource="devices"
-              :fields="devFields"
-              :change="onDeviceChange"
-              placeholder="Select your device"
-            ></ejs-dropdownlist>
-          </th>
-         
-          <th style="width: 25%">
-            <ejs-daterangepicker
-              :min="minDate"
-              :max="maxDate"
-              :startDate="startDate"
-              :endDate="endDate"
-              :change="onDatepickerChange"
-              :strictMode="true"
-              :placeholder="waterMark"
-            ></ejs-daterangepicker>
-          </th>
-        </tr>
-      </table>
+    <div>
+      <div>
+        Select your application and device:
+        <table>
+          <tr>
+            <th style="width: 25%">
+              <ejs-dropdownlist
+                id="dropdownApplist"
+                popupHeight="200px"
+                popupWidth="100%"
+                :dataSource="apps"
+                :fields="appFields"
+                :change="onAppChange"
+                placeholder="Select your sensor application"
+              ></ejs-dropdownlist>
+            </th>
+            <th style="width: 25%">
+              <ejs-dropdownlist
+                id="dropdownDevicelist"
+                popupHeight="200px"
+                popupWidth="100%"
+                :dataSource="devices"
+                :fields="devFields"
+                :change="onDeviceChange"
+                placeholder="Select your device"
+              ></ejs-dropdownlist>
+            </th>
+
+            <th style="width: 25%">
+              <ejs-daterangepicker
+                :min="minDate"
+                :max="maxDate"
+                :startDate="startDate"
+                :endDate="endDate"
+                :change="onDatepickerChange"
+                :strictMode="true"
+                :placeholder="waterMark"
+              ></ejs-daterangepicker>
+            </th>
+            <th style="width: 10%"></th>
+            <th style="width: 15%">
+              <table>
+                <tr>
+                  <ejs-checkbox
+                    label="Display Temperature"
+                    v-model="tempChecked"
+                    :checked="tempChecked"
+                  ></ejs-checkbox>
+                </tr>
+                <tr>
+                  <ejs-checkbox
+                    label="Display Humidity"
+                    v-model="humidChecked"
+                    :checked="humidChecked"
+                  ></ejs-checkbox>
+                </tr>
+              </table>
+            </th>
+          </tr>
+        </table>
+      </div>
     </div>
-  </div>
     <!--
   {{sensorData||''}}
     -->
- 
-  <div>
-    <ejs-chart
-      id="container"
-      width="100%"
-      height="350px"
-      :dataSource="sensorData"
-      :primaryXAxis="primaryXAxis"
-      :primaryYAxis="primaryYAxis"
-      :axes="axes"
-      :rows="rows"
-      :title="selectedDevice"
-      :legendSettings="legendSettings"
-      :zoomSettings="zoomSettings"
-      :tooltip="tooltip"
-    >
-      <e-series-collection>
-        <e-series type="Line" xName="time" yName="temp" name="Temperature"></e-series>
-        <e-series
-          type="Line"
-          xName="time"
-          yName="humidity"
-          yAxisName="yAxisHumidity"
-          name="Humidity"
-        ></e-series>
-        <!--
+
+    <div>
+      <ejs-chart
+        id="container"
+        width="100%"
+        height="350px"
+        :dataSource="sensorData"
+        :primaryXAxis="primaryXAxis"
+        :primaryYAxis="primaryYAxis"
+        :axes="axes"
+        :rows="rows"
+        :title="selectedDevice"
+        :legendSettings="legendSettings"
+        :zoomSettings="zoomSettings"
+        :tooltip="tooltip"
+      >
+        <e-series-collection>
+          <e-series v-if="tempChecked" type="Line" xName="time" yName="temp" name="Temperature"></e-series>
+          <e-series
+            v-if="humidChecked"
+            type="Line"
+            xName="time"
+            yName="humidity"
+            yAxisName="yAxisHumidity"
+            name="Humidity"
+          ></e-series>
+          <!--
                   <e-series :dataSource='testData' type='Line' xName="data.x" yName="data.y" > </e-series>
               
-        -->
-      </e-series-collection>
-    </ejs-chart>
-    MaxTemp: {{maxTemp}}, MinTemp: {{minTemp}}, maxHumidity: {{maxHumidity}}, minHumidity: {{minHumidity}}
-  </div>
+          -->
+        </e-series-collection>
+      </ejs-chart>
+      MaxTemp: {{maxTemp}}, MinTemp: {{minTemp}}, maxHumidity: {{maxHumidity}}, minHumidity: {{minHumidity}}
+    </div>
   </div>
 </template>
 
@@ -93,10 +113,16 @@ import {
   Zoom,
   Tooltip
 } from "@syncfusion/ej2-vue-charts";
+import { CheckBoxPlugin } from "@syncfusion/ej2-vue-buttons";
+import { enableRipple } from "@syncfusion/ej2-base";
+
+enableRipple(true);
 
 export default {
   data: function() {
     return {
+      tempChecked: true,
+      humidChecked: true,
       appFields: { text: "app", value: "app" },
       devFields: { text: "dev", value: "dev" },
       endDate: new Date(),
@@ -172,8 +198,6 @@ export default {
   },
 
   computed: {
-
-
     ...mapState({
       devices: state => state.devices.devices.items,
       selectedDevice: state => state.devices.devices.selected,
@@ -236,4 +260,5 @@ export default {
 @import "../../node_modules/@syncfusion/ej2-popups/styles/material.css";
 @import "../../node_modules/@syncfusion/ej2-lists/styles/material.css";
 @import "../../node_modules/@syncfusion/ej2-vue-calendars/styles/material.css";
+@import "../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
 </style>

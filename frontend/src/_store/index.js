@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import { DropDownListPlugin } from '@syncfusion/ej2-vue-dropdowns';
 import { DateRangePickerPlugin } from '@syncfusion/ej2-vue-calendars';
 import { ChartPlugin, LineSeries } from "@syncfusion/ej2-vue-charts";
+import { CheckBoxPlugin } from "@syncfusion/ej2-vue-buttons";
 
 
 import { alert } from './alert.module';
@@ -17,6 +18,7 @@ Vue.use(Vuex);
 Vue.use(DropDownListPlugin);
 Vue.use(DateRangePickerPlugin);
 Vue.use(ChartPlugin);
+Vue.use(CheckBoxPlugin);
 
 
 export const store = new Vuex.Store({
