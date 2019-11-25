@@ -10,12 +10,7 @@ function jwt() {
         path: [
             // public routes that don't require authentication
             '/users/authenticate',
-            '/users/register',
-            '/data/uniqueApps',
-            '/data/deviceByApp/iho_testapp',
-            '/data/deviceByApp/',
-            '/data/device/featherm0',
-            '/data/device'
+            '/users/register'
         ]
     });
 }
