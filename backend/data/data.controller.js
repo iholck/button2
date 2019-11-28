@@ -2,15 +2,7 @@ const express = require('express');
 const router = express.Router();
 const dataService = require('./data.service');
 
-/*// routes
-router.post('/authenticate', authenticate);
-router.post('/register', register);
-router.get('/', getAll);
-router.get('/current', getCurrent);
-router.get('/:id', getById);
-router.put('/:id', update);
-router.delete('/:id', _delete);
-*/
+
 router.get('/uniqueApps',getUniqueApps);
 router.get('/deviceByApp/:app',getDevicesByApp);
 router.get('/device/:device', getDataByDevice);

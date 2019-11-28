@@ -12,7 +12,7 @@ app.use(cors());
 
 // use JWT auth to secure the api
 // temporarily removed for development
-//app.use(jwt());
+app.use(jwt());
 
 // api routes
 app.use('/users', require('./users/users.controller'));
@@ -22,7 +22,7 @@ app.use('/data', require('./data/data.controller'));
 app.use(errorHandler);
 
 // start server
-const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
+const port = process.env.NODE_ENV === 'production' ? (process.env.BACKEND_PORT || 80) : 4000;
 const server = app.listen(port, function () {
     console.log('Server listening on port ' + port);
 });

@@ -21,6 +21,15 @@ services:
       - '27017-27019:27017-27019'
     networks:
       - backend
+  backend:
+    env_file: '.env'
+    image: 'backend'
+    container_name: 'backend'
+    ports:
+      - '${BACKEND_PORT}:${BACKEND_PORT}'
+    networks:
+      - backend
+
 networks:
   backend:
     driver: 'bridge'
