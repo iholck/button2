@@ -6,10 +6,10 @@ RUN apt-get update && \
     apt-get install -y git
 
 COPY ./package*.json ./
-COPY ./helpers ./helpers
-
-RUN npm ci --only=production
-
+COPY ./_helpers ./_helpers
+COPY ./data ./data
+COPY ./users ./users
 COPY ./*.js ./
+RUN npm ci --only=production
 
 CMD [ "npm", "start" ]

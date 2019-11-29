@@ -2,7 +2,7 @@
   <div>
     <div>
       <div>
-        Select your application and device:
+        Select customer and device:
         <table>
           <tr>
             <th style="width: 25%">

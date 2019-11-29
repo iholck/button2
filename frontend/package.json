@@ -17,6 +17,7 @@
     "@syncfusion/ej2-vue-charts": "^17.3.28",
     "@syncfusion/ej2-vue-dropdowns": "^17.3.28",
     "@syncfusion/ej2-vue-inputs": "^17.3.28",
+    "dotenv": "^8.2.0",
     "style-loader": "^1.0.0",
     "vee-validate": "^2.2.8",
     "vue": "^2.6.10",
