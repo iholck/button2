@@ -29,7 +29,7 @@ services:
       - "database"
     secrets: 
       - server.key
-      - server.cert
+      - server.crt
     ports:
       - '${BACKEND_PORT}:${BACKEND_PORT}'
     networks:
@@ -37,8 +37,8 @@ services:
 secrets:
   server.key:
     file: ./server.key
-  server.cert:
-    file: ./server.cert
+  server.crt:
+    file: ./server.crt
 networks:
   backend:
     driver: 'bridge'
