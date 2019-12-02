@@ -25,6 +25,9 @@ services:
     env_file: '.env'
     image: 'backend'
     container_name: 'backend'
+    secrets: 
+      - server.key
+      - server.cert
     ports:
       - '${BACKEND_PORT}:${BACKEND_PORT}'
     networks:
