@@ -32,7 +32,11 @@ services:
       - '${BACKEND_PORT}:${BACKEND_PORT}'
     networks:
       - backend
-
+secrets:
+  server.key:
+    file: ./server.key
+  server.cert:
+    file: ./server.cert
 networks:
   backend:
     driver: 'bridge'
