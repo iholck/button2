@@ -7,10 +7,12 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const jwt = require('_helpers/jwt');
 const errorHandler = require('_helpers/error-handler');
+var compression = require('compression');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(compression());
 
 // use JWT auth to secure the api
 // temporarily removed for development
@@ -27,7 +29,7 @@ app.use(errorHandler);
 const port = process.env.NODE_ENV === 'production' ? (process.env.BACKEND_PORT || 80) : 4000;
 https.createServer({
     key: fs.readFileSync('/run/secrets/server.key'),
-    cert: fs.readFileSync('/run/secrets/server.cert')
+    cert: fs.readFileSync('/run/secrets/server.crt')
   }, app) .listen(port, function () {
     console.log('Server listening on port ' + port);
 });

@@ -43,7 +43,7 @@ module.exports = {
     externals: {
         // global app config object
         config: JSON.stringify({
-            apiUrl: `http://10.10.12.12:4000`
+            apiUrl: `https://dockersvr.local:4000`
         })
     }
 }

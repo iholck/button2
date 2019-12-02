@@ -1,6 +1,25 @@
 import config from 'config';
 import { authHeader } from '../_helpers';
 
+const http= require('http');
+const https = require('https');
+const httpAgent = new http.Agent({
+    keepAlive: true
+});
+const httpsAgent = new https.Agent({
+    keepAlive: true,
+    rejectUnauthorized: false
+});
+
+const options = {
+    agent: function (_parsedURL) {
+        if (_parsedURL.protocol == 'http:') {
+            return httpAgent;
+        } else {
+            return httpsAgent;
+        }
+    }
+}
 export const deviceService = {
 getUniqueApplications,
 getDevicesByApp,
@@ -11,7 +30,8 @@ getDeviceDataByTimeRange
 function getUniqueApplications(){
     const requestOptions = {
         method: 'GET',
-        headers:  authHeader()
+        headers:  authHeader(),
+        agent: httpsAgent
         
     };
     return fetch(`${config.apiUrl}/data/uniqueApps`, requestOptions)
@@ -24,7 +44,8 @@ function getUniqueApplications(){
 function getDevicesByApp(appName){
     const requestOptions = {
         method: 'GET',
-        headers:  authHeader()
+        headers:  authHeader(),
+        agent: httpsAgent
         
     };
     return fetch(`${config.apiUrl}/data/deviceByApp/${appName}`, requestOptions)
@@ -37,7 +58,8 @@ function getDevicesByApp(appName){
 function getDeviceDataByTimeRange(device, startDate, endDate){
     const requestOptions = {
         method: 'GET',
-        headers:  authHeader()
+        headers:  authHeader(),
+        agent: httpsAgent
         
     };
     return fetch(`${config.apiUrl}/data/device/${device}/data/${startDate}/${endDate}`, requestOptions)

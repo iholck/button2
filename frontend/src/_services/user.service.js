@@ -1,5 +1,26 @@
 import config from 'config';
 import { authHeader } from '../_helpers';
+const https = require('https');
+const http = require('http');
+
+
+const httpAgent = new http.Agent({
+    keepAlive: true
+});
+const httpsAgent = new https.Agent({
+    keepAlive: true,
+    rejectUnauthorized: false
+});
+
+const options = {
+    agent: function (_parsedURL) {
+        if (_parsedURL.protocol == 'http:') {
+            return httpAgent;
+        } else {
+            return httpsAgent;
+        }
+    }
+}
 
 export const userService = {
     login,
@@ -15,6 +36,8 @@ function login(username, password) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        
+        agent: httpsAgent,
         body: JSON.stringify({ username, password })
     };
 
@@ -40,6 +63,7 @@ function register(user) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        agent: httpsAgent,
         body: JSON.stringify(user)
     };
 
@@ -49,6 +73,7 @@ function register(user) {
 function getAll() {
     const requestOptions = {
         method: 'GET',
+        agent: httpsAgent,
         headers: authHeader()
     };
 
@@ -59,6 +84,7 @@ function getAll() {
 function getById(id) {
     const requestOptions = {
         method: 'GET',
+        agent: httpsAgent,
         headers: authHeader()
     };
 
@@ -69,6 +95,7 @@ function update(user) {
     const requestOptions = {
         method: 'PUT',
         headers: { ...authHeader(), 'Content-Type': 'application/json' },
+        agent: httpsAgent,
         body: JSON.stringify(user)
     };
 
@@ -79,6 +106,7 @@ function update(user) {
 function _delete(id) {
     const requestOptions = {
         method: 'DELETE',
+        agent: httpsAgent,
         headers: authHeader()
     };
 
