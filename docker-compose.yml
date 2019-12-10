@@ -38,12 +38,12 @@ services:
     env_file: '.env'
     image: 'frontend'
     container_name: 'frontend'
-      depends_on:
-        - "backend"
-      ports:
-        - '${FRONTEND_PORT}:${FRONTEND_PORT}'
-      networks:
-        - backend
+    depends_on:
+      - "backend"
+    ports:
+      - '${FRONTEND_PORT}:${FRONTEND_PORT}'
+    networks:
+      - backend
 secrets:
   server.key:
     file: ./server.key
